@@ -1,6 +1,44 @@
 import UIKit
 
+
 import Foundation
+
+func solution(_ board:[[Int]], _ moves:[Int]) -> Int {
+    var boardArray:[[Int]] = Array(repeating: [], count: board.count )
+    var stack = [Int]()
+    var moveArray = moves.map { $0 - 1 }
+    var result = 0
+    var value = 0
+    
+    
+    for i in 0..<board.count {
+        for j in 0..<board.count {
+            if board[i][j] != 0 {
+                boardArray[i].append(board[i][j])
+            }
+        }
+    }
+//    print(boardArray)
+    
+    for count in moveArray {
+            value = boardArray[count].popLast()!
+        if count < board.count {
+            if stack.isEmpty {
+                stack.append(value)
+            } else if stack.popLast() == value {
+                stack.popLast()
+                result += 2
+            } else {
+                stack.append(value)
+            }
+        }
+    }
+    return result
+}
+
+solution([[0,0,0,0,0],[0,0,1,0,3],[0,2,5,0,1],[4,2,4,4,2],[3,5,1,3,1]], [1,5,3,5,1,2,1,4])
+
+
 
 func DFS(graph: [String: [String]], start: String) -> [String] {
     var visitedQueue: [String] = []
@@ -16,7 +54,7 @@ func DFS(graph: [String: [String]], start: String) -> [String] {
         visitedQueue.append(node)
         //노드와 인접한 것들을 stack에 넣어준다.
         needVisitStack += graph[node] ?? []
-//        print(needVisitStack)
+        //        print(needVisitStack)
     }
     return visitedQueue
 }
